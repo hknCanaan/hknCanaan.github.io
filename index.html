@@ -2,31 +2,14 @@
 <html>
 <head>
 	<title>Kan-Colle Body Check</title>
-	<script src="bodyCheck.js"></script>
-	<script src="jquery-2.1.4.min.js"></script>
-	<script>
-		$(document).ready
-		(
-			function()
-			{
-				$("button").click(
-					function()
-					{
-						drawResourcesStatus($("#fuel").val(), $("#ammo").val(),$("#steel").val(),$("#bauxite").val());
-					}
-				);
-			}
-		);
-	</script>
-</head>
+	<link rel="stylesheet" type="text/css" href="css/bodyCheck.css">
+	<script src="js/jquery-2.1.4.min.js"></script>
+	
 <body>
-	<canvas id="canvas" width="400" height="200"></canvas>
-	<div>
-		<input name="fuel" id="fuel" type="number" max="30000" min="0" step="1" numeric/>
-		<input name="ammo" id="ammo" type="number" max="30000" min="0" step="1" numeric/>
-		<input name="steel" id="steel" type="number" max="30000" min="0" step="1" numeric/>
-		<input name="bauxite" id="bauxite" type="number" max="30000" min="0" step="1" numeric/>
-		<button>submit</button>
+	<div class="container">
+		<canvas id="canvas">
+		
+		</canvas>
 	</div>
 </body>
 </html>
