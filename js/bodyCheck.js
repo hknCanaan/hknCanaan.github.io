@@ -3,14 +3,15 @@ function init(canvasID){
 	canvas.ID = canvasID;
 	console.log(canvasID);
 	var canvas = document.getElementById(canvas.ID);
-      	var context = canvas.getContext('2d');
+	var context = canvas.getContext("2d");
 	
-	context.stroke = "black"; 
-	context.lineWidth = 1;
-	context.strokeRect(0, 0, 500, 250);
+        context.fillStyle = "rgb(200,0,0)";
+        context.fillRect (10, 10, 55, 50);
+
+        context.fillStyle = "rgba(0, 0, 200, 0.5)";
+		context.fillRect (30, 30, 55, 50);
 	
 	
-	context.strokeRect(0, 0, 200, 15);
 
 }
 
