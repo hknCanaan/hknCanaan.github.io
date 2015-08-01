@@ -5,7 +5,7 @@ function init(canvasID){
       	var context = canvas.getContext('2d');
 	
 	context.stroke = "black"; 
-	ctx.lineWidth = 1;
+	context .lineWidth = 1;
 	context.strokeRect(0, 0, 600, 250);
 	
 	initResourcesSection(context);
