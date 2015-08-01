@@ -1,6 +1,7 @@
 function init(canvasID){
 	var canvas = {};
 	canvas.ID = canvasID;
+	console.log(canvasID);
 	var canvas = document.getElementById(canvas.ID);
       	var context = canvas.getContext('2d');
 	
