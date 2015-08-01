@@ -6,7 +6,7 @@ function init(canvasID){
 	
 	context.stroke = "black"; 
 	ctx.lineWidth = 1;
-	context.strokeRect(0, 0, 100, 100);
+	context.strokeRect(0, 0, 600, 250);
 	initResourcesSection(canvas);
 }
 
