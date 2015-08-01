@@ -5,15 +5,12 @@ function init(canvasID){
       	var context = canvas.getContext('2d');
 	
 	context.stroke = "black"; 
-	context .lineWidth = 1;
+	context.lineWidth = 1;
 	context.strokeRect(0, 0, 600, 250);
 	
 	
 	context.strokeRect(0, 0, 200, 15);
-	context.strokeRect(0, 20, 200, 15);
-	context.strokeRect(0, 40, 200, 15);
-	context.strokeRect(0, 60, 200, 15);
-	initResourcesSection(context);
+
 }
 
 function intitAdmiralInfoSection(context)
