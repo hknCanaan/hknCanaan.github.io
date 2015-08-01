@@ -6,7 +6,7 @@ function init(canvasID){
 	
 	context.stroke = "black"; 
 	context.lineWidth = 1;
-	context.strokeRect(0, 0, 600, 250);
+	context.strokeRect(0, 0, 500, 250);
 	
 	
 	context.strokeRect(0, 0, 200, 15);
