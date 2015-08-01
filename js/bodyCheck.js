@@ -7,16 +7,21 @@ function init(canvasID){
 	context.stroke = "black"; 
 	ctx.lineWidth = 1;
 	context.strokeRect(0, 0, 600, 250);
-	initResourcesSection(canvas);
+	
+	initResourcesSection(context);
 }
 
-function intitAdmiralInfoSection(canvas)
+function intitAdmiralInfoSection(context)
 {
 	
 }
 
-function initResourcesSection(canvas)
+function initResourcesSection(context)
 {
-	
+	context.strokeRect(0, 0, 200, 15);
+	context.strokeRect(0, 20, 200, 15);
+	context.strokeRect(0, 40, 200, 15);
+	context.strokeRect(0, 60, 200, 15);
+
 	
 }
