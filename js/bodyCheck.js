@@ -14,7 +14,7 @@ function render(canvasID){
 	var context = canvas.getContext("2d");
 	canvasObj.context = context;
 	context.clearRect(0, 0, canvas.width, canvas.height);
-	context.strokeRect(0,0,600,250);
+	context.strokeRect(0,0,600,500);
 	
 	drawAdmiralInfoSection()
 	drawResourcesSection()
@@ -23,70 +23,91 @@ function render(canvasID){
 
 function drawAdmiralInfoSection()
 {
+	starting_x = 100;
+	starting_y = 52;
+	spacing = 10;
+	
+	name_height = 16;
+	
+	icon_width = 120;
+	icon_height = icon_width;
+	
+	lv_height = 14;
+	server_height = 16;
+	
+	
 	var context = canvasObj.context;
-	context.fillStyle = "white";
+	context.fillStyle = "black";
 	context.strokeStyle = "black";
-	context.font = "bold 20px serif";
+	context.font = "bold "+name_height+"px serif";
+	
 	
 	var name = $("#adm_name").val() ? $("#adm_name").val() : "Nameless Admiral";
-	context.fillText(name, 60, 50);
-	context.strokeText(name, 60, 50);
+	context.fillText(name, starting_x, starting_y);
 	
-	context.strokeRect(70, 60, 120, 120);
+	//Icon Area
+	var drawing = new Image();
+	drawing.src = "img/default.png";
+	drawing.customData = {x:starting_x,y:starting_y+spacing};
+	drawing.onload = function()
+	{
+		context.drawImage(this,this.customData.x, this.customData.y);
+	}
+	context.strokeRect(starting_x, starting_y+spacing, icon_height, icon_width);
 
 	var lv = $("#adm_lv").val() ? ("Lv. "+$("#adm_lv").val()) : "Lv. ?";
-	context.font = "bold 10px serif";
-	context.fillText(lv, 120, 195);
-	context.strokeText(lv, 120, 195);
-	
-	var server = $("#adm_server").val() ? ("Lv. "+$("#adm_lv").val()) : "Lv. ?";
-	context.font = "bold 14px serif";
-	
-	context.fillText(lv, 120, 195);
-	context.strokeText(lv, 120, 195);
-	
+	context.font = "bold "+lv_height+"px serif";
+	context.fillText(lv, starting_x, starting_y+spacing+icon_height+lv_height);
 	
 	var server = $("#adm_server").val() ? (($("#adm_server option:selected").text()).split("　"))[1] : "Unknown Server";
-	context.font = "bold 16px serif";
-	context.fillText(server, 75, 210);
-	context.strokeText(server, 75, 210);
+	context.font = "bold "+server_height+"px serif";
+	context.fillText(server, starting_x, starting_y+spacing+icon_height+spacing+lv_height+spacing);
+
 }
 
 function drawResourcesSection()
 {
-	starting_y = 100;
+	starting_y = 42;
+	starting_x = 310;
+	barLength = 200;
+	barHeight = 15;
+	space_betweenBar = 25;
+	
 	var context = canvasObj.context;
+	context.strokeStyle = "black";
+	context.lineWidth = 1;
+	
 	var fuel = canvasObj.Resources[0];
 	var ammo = canvasObj.Resources[1];
 	var steel = canvasObj.Resources[2];
 	var bauxite = canvasObj.Resources[3];
 	var bucket = canvasObj.Resources[4];
 	
-	var fuelGradient = context.createLinearGradient(350, 0, 550, 0);
+	var fuelGradient = context.createLinearGradient(starting_x, 0, starting_x+barLength, 0);
 	fuelGradient.addColorStop(0, 'red');
 	fuelGradient.addColorStop(fuel.low/parseFloat(fuel.maxium), 'yellow');
 	fuelGradient.addColorStop(fuel.sufficient/parseFloat(fuel.maxium), 'palegreen');
 	fuelGradient.addColorStop(1, 'green');
 	
-	var ammoGradient = context.createLinearGradient(350, 0, 550, 0);
+	var ammoGradient = context.createLinearGradient(starting_x, 0, starting_x+barLength, 0);
 	ammoGradient.addColorStop(0, 'red');
 	ammoGradient.addColorStop(ammo.low/parseFloat(ammo.maxium), 'yellow');
 	ammoGradient.addColorStop(ammo.sufficient/parseFloat(ammo.maxium), 'palegreen');
 	ammoGradient.addColorStop(1, 'green');
 	
-	var steelGradient = context.createLinearGradient(350, 0, 550, 0);
+	var steelGradient = context.createLinearGradient(starting_x, 0, starting_x+barLength, 0);
 	steelGradient.addColorStop(0, 'red');
 	steelGradient.addColorStop(steel.low/parseFloat(steel.maxium), 'yellow');
 	steelGradient.addColorStop(steel.sufficient/parseFloat(steel.maxium), 'palegreen');
 	steelGradient.addColorStop(1, 'green');
 	
-	var bauxiteGradient = context.createLinearGradient(350, 0, 550,0 );
+	var bauxiteGradient = context.createLinearGradient(starting_x, 0, starting_x+barLength, 0);
 	bauxiteGradient.addColorStop(0, 'red');
 	bauxiteGradient.addColorStop(bauxite.low/parseFloat(bauxite.maxium), 'yellow');
 	bauxiteGradient.addColorStop(bauxite.sufficient/parseFloat(bauxite.maxium), 'palegreen');
 	bauxiteGradient.addColorStop(1, 'green');
 	
-	var bucketGradient = context.createLinearGradient(350, 0, 550, 0);
+	var bucketGradient = context.createLinearGradient(starting_x, 0, starting_x+barLength, 0);
 	bucketGradient.addColorStop(0, 'red');
 	bucketGradient.addColorStop(bucket.low/parseFloat(bucket.maxium), 'yellow');
 	bucketGradient.addColorStop(bucket.sufficient/parseFloat(bucket.maxium), 'palegreen');
@@ -109,34 +130,61 @@ function drawResourcesSection()
 		
 		var drawing = new Image();
 		drawing.src = imgArr[i];
-		drawing.customData = {x:325,y:starting_y};
+		drawing.customData = {x:(starting_x-25),y:starting_y};
 		drawing.onload = function() {
 			context.drawImage(this,this.customData.x, this.customData.y);
 		};
 		
-		
 		currentRes = canvasObj.Resources[i];
-		var barPgoress = Math.ceil(200*(currentResArr[i]/parseFloat(currentRes.maxium)));
+		currentResArr[i] = (currentResArr[i] > currentRes.maxium) ? currentRes.maxium : currentResArr[i];
+		
+		
+		var barPgoress = Math.ceil(barLength*(currentResArr[i]/parseFloat(currentRes.maxium)));
 		context.fillStyle = gradientArr[i];
-		context.fillRect(350, starting_y, barPgoress, 15);
-		context.strokeRect(350, starting_y, 200, 15);
+		context.fillRect(starting_x, starting_y, barPgoress, barHeight);
+		context.strokeRect(starting_x, starting_y, barLength, barHeight);
 		
-		var lowIndicator = Math.ceil(200*(currentRes.low/parseFloat(currentRes.maxium)));
-		var sufficientIndicator = Math.ceil(200*(currentRes.low/parseFloat(currentRes.sufficient)));
-		
-		context.beginPath();
-		context.moveTo(349.5+lowIndicator,starting_y-3);
-		context.lineTo(349.5+lowIndicator,starting_y+18);
-		context.stroke();
+		var lowIndicator = Math.ceil(barLength*(currentRes.low/parseFloat(currentRes.maxium)));
+		var sufficientIndicator = Math.ceil(barLength*(currentRes.low/parseFloat(currentRes.sufficient)));
 		
 		context.beginPath();
-		context.moveTo(349.5+sufficientIndicator,starting_y-3);
-		context.lineTo(349.5+sufficientIndicator,starting_y+18);
+		context.moveTo(starting_x-0.5+lowIndicator,starting_y-4);
+		context.lineTo(starting_x-0.5+lowIndicator,starting_y+19);
 		context.stroke();
 		
 		
+		context.beginPath();
+		context.moveTo(starting_x-0.5+sufficientIndicator,starting_y-4);
+		context.lineTo(starting_x-0.5+sufficientIndicator,starting_y+19);
+		context.stroke();
 		
-		starting_y+=25;
+		
+		context.font = "bold 12px serif";
+		context.fillStyle = "black";
+		context.fillText(currentResArr[i], starting_x+barLength-50, starting_y+12);
+		
+		context.font = "bold 10px serif";
+		context.fillStyle = "black";
+		context.fillText("Low", starting_x+lowIndicator-7, starting_y-5);
+		context.fillText("Sufficient", starting_x+sufficientIndicator-10, starting_y-5);
+		
+		context.font = "bold 12px serif";
+		if(currentResArr[i] < currentRes.low)
+		{
+			context.fillStyle = "red";
+			context.fillText("×", starting_x+barLength+5, starting_y+barHeight-3);
+		}
+		else if(currentResArr[i] < currentRes.sufficient)
+		{
+			context.fillStyle = "orange";
+			context.fillText("✓", starting_x+barLength+5, starting_y+barHeight-3);
+		}
+		else
+		{
+			context.fillStyle = "green";
+			context.fillText("✓✓", starting_x+barLength+5, starting_y+barHeight-3);
+		}
+		starting_y+=(barHeight+space_betweenBar);
 	}
 	
 	
