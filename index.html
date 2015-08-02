@@ -3,6 +3,7 @@
 <head>
 	<title>Kan-Colle Body Check</title>
 	<link rel="stylesheet" type="text/css" href="css/bodyCheck.css">
+	<link rel="stylesheet" type="text/css" href="css/tabTable.css">
 	<script src="js/jquery-2.1.4.min.js"></script>
 	<script src="js/bodyCheck.js"></script>
 	<script>
@@ -10,14 +11,16 @@
 		(
 			function()
 			{
-	var canvas = document.getElementById('canvas');
-	var context = canvas.getContext("2d");
-	
-        context.fillStyle = "rgb(200,0,0)";
-        context.fillRect (10, 10, 55, 50);
-
-        context.fillStyle = "rgba(0, 0, 200, 0.5)";
-		context.fillRect (30, 30, 55, 50);
+				render('canvas');
+			
+				
+				$(".controlInput").change
+				(
+					function()
+					{
+						render('canvas');
+					}
+				)
 			}
 		);
 	</script>
@@ -28,5 +31,62 @@
 		
 		</canvas>
 	</div>
+	<div class="container">
+		<div class="tabs">
+			<div class="tab">
+				<input type="radio" id="tab-1" name="tab-group-1" checked>
+				<label for="tab-1">Admiral</label>
+				<div class="content" id="admiral">
+					<label for="adm_name">Admiral Name</label>
+					<input type="text" id="adm_name" name="adm_name" class="controlInput" placeholder="Your Name"/>
+					<label for="adm_lv">Lv.</label>
+					<input type="number" id="adm_lv" name="adm_lv" class="controlInput" max="120" min="1" step="1"/>
+					<label for="adm_server">Server</label>
+					<select name="adm_server" id="adm_server" class="controlInput">
+						<option value="" disabled="" selected="">------</option>
+						<option value="1">横須賀鎮守府　Yokosuka Naval District</option>
+						<option value="2">呉鎮守府　Kure Naval District</option>
+						<option value="3">佐世保鎮守府　Sasebo Naval District</option>
+						<option value="4">舞鶴鎮守府　Maizuru Naval District</option>
+						<option value="5">大湊警備府　Ominato Guard District</option>
+						<option value="6">トラック泊地　Truk Anchorage</option>
+						<option value="7">リンガ泊地　Lingga Anchorage</option>
+						<option value="8">ラバウル基地　Rabaul Naval Base</option>
+						<option value="9">ショートランド泊地　Shortland Anchorage</option>
+						<option value="10">ブイン基地　Buin Naval Base</option>
+						<option value="11">タウイタウイ泊地　Tawi-Tawi Anchorage</option>
+						<option value="12">パラオ泊地　Palau Anchorage</option>
+						<option value="13">ブルネイ泊地　Brunei Anchorage</option>
+						<option value="14">単冠湾泊地　Hitokappu Bay Anchorage</option>
+						<option value="15">幌筵泊地　Paramushir Anchorage</option>
+						<option value="16">宿毛泊地　Sukumo Anchorage</option>
+						<option value="17">鹿屋基地　Kanoya Airfield</option>
+						<option value="18">岩川基地　Iwagawa Airfield</option>
+						<option value="19">佐伯湾泊地　Saiki Bay Anchorage</option>
+						<option value="20">柱島泊地　Hashirajima Anchorage</option>
+					</select>
+				</div>
+			</div>
+			<div class="tab">
+				<input type="radio" id="tab-2" name="tab-group-1">
+				<label for="tab-2">Resources</label>
+				<div class="content" id="resources">
+					<label for="res_fuel">Fuel</label>
+					<input type="number" id="res_fuel" name="res_fuel" class="controlInput" max="300000" min="0" step="1"/>
+					<label for="res_ammo">Ammo</label>
+					<input type="number" id="res_ammo" name="res_ammo" class="controlInput" max="300000" min="0" step="1"/>
+					<label for="res_steel">Steel</label>
+					<input type="number" id="res_steel" name="res_steel" class="controlInput" max="300000" min="0" step="1"/>
+					<label for="res_bauxite">Bauxite</label>
+					<input type="number" id="res_bauxite" name="res_bauxite" class="controlInput" max="300000" min="0" step="1"/>
+					<label for="res_bucket">Repair Bucket</label>
+					<input type="number" id="res_bucket" name="res_bucket" class="controlInput" max="300000" min="0" step="1"/>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer>
+		All rights reserved to their respective owners.
+	</footer>
 </body>
 </html>
