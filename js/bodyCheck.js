@@ -16,8 +16,9 @@ function render(canvasID){
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	context.strokeRect(0,0,600,500);
 	
-	drawAdmiralInfoSection()
-	drawResourcesSection()
+	drawAdmiralInfoSection();
+	drawResourcesSection();
+	drawFleetSection();
 
 }
 
@@ -188,4 +189,41 @@ function drawResourcesSection()
 	}
 	
 	
+}
+
+function drawFleetSection()
+{
+	starting_x = 110;
+	starting_y = 250;
+	var context = canvasObj.context;
+	context.strokeStyle = "black";
+	hexagon_side = 15;
+	hexagon_in_row = 17;
+	hexagon_in_coloum = 8;
+	radius = (hexagon_side/2)*Math.sqrt(3);
+	current_x=starting_x;
+	current_y=starting_y;
+	for(j = 0; j < hexagon_in_coloum;j++)
+	{
+		for(i = 0; i < hexagon_in_row;i++)
+		{
+			drawHexagon(current_x, current_y, hexagon_side);
+			current_x+=(radius+hexagon_side/2)+4;
+			current_y+=(Math.pow(-1,i)*radius);
+		}
+		current_x=starting_x;
+		current_y+=(hexagon_in_row%2==1?radius:radius*2);
+	}
+}
+
+function drawHexagon(Xcenter, Ycenter, size)
+{
+	var context = canvasObj.context;
+	context.beginPath();
+	context.moveTo (Xcenter +  size * Math.cos(0), Ycenter +  size *  Math.sin(0));   
+	for (var i = 1; i <= 6;i += 1) 
+	{
+		context .lineTo (Xcenter + size * Math.cos(i * 2 * Math.PI / 6), Ycenter + size * Math.sin(i * 2 * Math.PI / 6));
+	}
+	context.stroke();
 }
