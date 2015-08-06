@@ -6,9 +6,36 @@ canvasObj.Resources = 	[
 							{low:20000,standard:40000,sufficient:80000,maxium:300000},
 							{low:300,standard:500,sufficient:1000,maxium:3000}
 						]
+						
+canvasObj.Fleet = 
+{
+	BB:
+	{
+		type_name:'BB',
+		image_cell:
+			[
+				{row:12,col:0}, 
+				{row:12,col:2},
+				{row:11,col:0},
+				{row:13,col:1}, 
+				{row:13,col:0},
+				{row:11,col:1}
+			],
+		text_cell:{row:8,col:4},
+		fleet:
+			[
+				{name:"大和"},
+				{name:"武藏"},
+				{name:"長門"},
+				{name:"陸奧"},
+				{name:"Italia"},
+				{name:"Roma"}
+			]
+	}
+}
 
 function render(canvasID){
-	console.log("called");
+	//console.log("called");
 	canvasObj.ID = canvasID;
 	var canvas = document.getElementById(canvasObj.ID);
 	var context = canvas.getContext("2d");
@@ -193,37 +220,114 @@ function drawResourcesSection()
 
 function drawFleetSection()
 {
-	starting_x = 110;
+	starting_x = 90;
 	starting_y = 250;
 	var context = canvasObj.context;
 	context.strokeStyle = "black";
 	hexagon_side = 15;
-	hexagon_in_row = 17;
-	hexagon_in_coloum = 8;
+	hexagon_in_row = 14;
+	hexagon_in_coloum = 7;
 	radius = (hexagon_side/2)*Math.sqrt(3);
 	current_x=starting_x;
 	current_y=starting_y;
+	var hexagonArr = new Array(hexagon_in_coloum);
 	for(j = 0; j < hexagon_in_coloum;j++)
 	{
+		hexagonArr[j] = new Array(hexagon_in_row);
 		for(i = 0; i < hexagon_in_row;i++)
 		{
-			drawHexagon(current_x, current_y, hexagon_side);
-			current_x+=(radius+hexagon_side/2)+4;
+			hexagonArr[j][i] = drawHexagon(current_x, current_y, hexagon_side);
+			current_x+=(radius+hexagon_side/2)+6;
 			current_y+=(Math.pow(-1,i)*radius);
 		}
 		current_x=starting_x;
 		current_y+=(hexagon_in_row%2==1?radius:radius*2);
 	}
+	
+	for(var type in canvasObj.Fleet) {
+		for(i = 0; i <canvasObj.Fleet[type].image_cell.length;i++)
+		{
+			var cell = canvasObj.Fleet[type].image_cell[i];
+			var img = "img/"+canvasObj.Fleet[type].type_name +"/"+canvasObj.Fleet[type].fleet[i].name+".png";
+			console.log(img);
+			hexagonArr[cell.col][cell.row].image = img;
+			//hexagonArr[cell.col][cell.row].image = "img/"type.name +"/"+type.fleet[i].name+".png";
+			
+		}
+	}
+	
+	for(j = 0; j < hexagon_in_coloum;j++)
+	{
+		for(i = 0; i < hexagon_in_row;i++)
+		{
+			var current_cell = hexagonArr[j][i];
+			var current = hexagonArr[j][i].points;
+			if(current_cell.image)
+			{
+				var drawing = new Image();
+				drawing.src = current_cell.image;
+				drawing.customData = current;
+				drawing.onload = function()
+				{
+					
+					context.save();
+					context.strokeStyle = "green";
+					context.lineWidth = 2;
+					context.beginPath();
+					
+					current = this.customData;
+					context.moveTo(current[0].x, current[0].y);
+					var min_x = current[0].x;
+					var min_y = current[0].y;
+					
+					for(k = 1;k<7;k++)
+					{
+						min_x = current[k].x < min_x ? current[k].x : min_x;
+						min_y = current[k].y < min_y ? current[k].y : min_y;
+						context.lineTo(current[k].x, current[k].y);
+					}		
+					context.stroke();
+					context.clip();
+	
+					var space = 10;
+					var img_starting_y = ((100-space)/2)*Math.sqrt(3);
+					
+					context.drawImage(this, 20, 30, 55, 48, min_x, min_y, hexagon_side*2,hexagon_side*Math.sqrt(3));
+					context.restore();
+				}
+			}
+			else
+			{
+				context.strokeStyle = "black";
+				context.lineWidth = 1;
+				context.beginPath();
+				context.moveTo(current[0].x, current[0].y);
+				for(k = 1;k<7;k++)
+				{
+					context.lineTo(current[k].x, current[k].y);
+				}	
+				context.stroke();
+			}
+		}
+	}
+	
+	
 }
 
 function drawHexagon(Xcenter, Ycenter, size)
 {
-	var context = canvasObj.context;
-	context.beginPath();
-	context.moveTo (Xcenter +  size * Math.cos(0), Ycenter +  size *  Math.sin(0));   
+	var Hexagon = {points:[]};
+	var begin_x = Xcenter +  size * Math.cos(0);
+	var begin_y = Ycenter +  size *  Math.sin(0);
+	Hexagon.points[0] = {x:begin_x, y:begin_y};
 	for (var i = 1; i <= 6;i += 1) 
 	{
-		context .lineTo (Xcenter + size * Math.cos(i * 2 * Math.PI / 6), Ycenter + size * Math.sin(i * 2 * Math.PI / 6));
+		var x = Xcenter + size * Math.cos(i * 2 * Math.PI / 6);
+		var y = Ycenter + size * Math.sin(i * 2 * Math.PI / 6)
+		//console.log("x"+i+":" + x);
+		//console.log("y"+i+":" + y);
+		Hexagon.points[i] = {x:x, y:y};
 	}
-	context.stroke();
+	//console.log(Hexagon);
+	return Hexagon;
 }
